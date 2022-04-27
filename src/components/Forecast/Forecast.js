@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Forecast.module.css';
 import Weather from './components/Weather';
+import getForecast from '../../apis/getForecast';
 
-const Forecast = () => (
+const Forecast = ({city}) => {
+  const [forecast, setForecast] = useState([]);
+
+  useEffect(() => {
+    const fetchForecast = async () => {
+      const {data} = await getForecast(city.id);
+      setForecast(data.list);
+    }
+    fetchForecast();
+  }, [city]);
+  return (
     <div className={styles.forecast}>
       <h2 className={styles.header}>Forecast</h2>
       <div className={styles.weathers}>
@@ -33,5 +44,6 @@ const Forecast = () => (
       </div>
     </div>
 )
+}
 
 export default Forecast;

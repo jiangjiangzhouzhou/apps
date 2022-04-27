@@ -6,8 +6,9 @@ const City = ({
   name,
   weather,
   temperature,
+  onClick,
 }) => (
-  <button className={styles.city}>
+  <button className={styles.city} onClick = {onClick}>
     <h3 className={styles.name}>{name}</h3>
     <div className={styles.temperature}>
       <Temperature>{temperature}</Temperature>
