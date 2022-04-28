@@ -10,6 +10,7 @@ const Forecast = ({city}) => {
     const fetchForecast = async () => {
       const {data} = await getForecast(city.id);
       setForecast(data.list);
+      console.log(data.list);
     }
     fetchForecast();
   }, [city]);
@@ -18,28 +19,28 @@ const Forecast = ({city}) => {
       <h2 className={styles.header}>Forecast</h2>
       <div className={styles.weathers}>
         <Weather day="MON" 
-        temperature="9"
-        weather={{ icon: '11d', description: 'Thunderstorm' }} 
+        temperature={forecast[0].main.temp}
+        weather={{ icon: forecast[0].weather[0].icon, description: forecast[0].weather[0].description}} 
         />
         <Weather 
           day="TUE" 
-          temperature="15"
-          weather={{ icon: '01d', description: 'Clear' }} 
+          temperature={forecast[1].main.temp}
+          weather={{ icon: forecast[1].weather[0].icon, description: forecast[1].weather[0].description}} 
         />
         <Weather 
           day="WED" 
-          temperature="11"
-          weather={{ icon: '03d', description: 'Clouds' }} 
+          temperature={forecast[2].main.temp}
+          weather={{ icon: forecast[2].weather[0].icon, description: forecast[2].weather[0].description}} 
         />
         <Weather 
           day="THU" 
-          temperature="7"
-          weather={{ icon: '50d', description: 'Mist' }} 
+          temperature={forecast[3].main.temp}
+          weather={{ icon: forecast[3].weather[0].icon, description: forecast[3].weather[0].description }} 
         />
         <Weather 
           day="FRI" 
-          temperature="8"
-          weather={{ icon: '09d', description: 'Rain' }} 
+          temperature={forecast[4].main.temp}
+          weather={{ icon: forecast[4].weather[0].icon, description: forecast[4].weather[0].description }} 
         />
       </div>
     </div>
