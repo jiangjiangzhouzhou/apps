@@ -1,4 +1,3 @@
-import React, {useState,useEffect} from 'react';
 import styles from './OtherCities.module.css';
 import classNames from 'classnames/bind';
 import City from './components/City';
