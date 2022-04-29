@@ -1,48 +1,44 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import styles from './Forecast.module.css';
 import Weather from './components/Weather';
 import getForecast from '../../apis/getForecast';
 
-const Forecast = ({city}) => {
-  const [forecast, setForecast] = useState([]);
+const DATA = ['SUN','MON','TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+const Forecast = ({city}) => {
+  const [forecast, setForecast] = useState(null);
+  const today = useMemo(() => new Date(), []);
+  const [day, setDay] = useState();
+  console.log(day);
   useEffect(() => {
     const fetchForecast = async () => {
       const {data} = await getForecast(city.id);
       setForecast(data.list);
-      console.log(data.list);
+      setDay(today.getDay());
     }
     fetchForecast();
-  }, [city]);
+  }, [city,today]);
   return (
     <div className={styles.forecast}>
-      <h2 className={styles.header}>Forecast</h2>
-      <div className={styles.weathers}>
-        <Weather day="MON" 
-        temperature={forecast[0].main.temp}
-        weather={{ icon: forecast[0].weather[0].icon, description: forecast[0].weather[0].description}} 
-        />
-        <Weather 
-          day="TUE" 
-          temperature={forecast[1].main.temp}
-          weather={{ icon: forecast[1].weather[0].icon, description: forecast[1].weather[0].description}} 
-        />
-        <Weather 
-          day="WED" 
-          temperature={forecast[2].main.temp}
-          weather={{ icon: forecast[2].weather[0].icon, description: forecast[2].weather[0].description}} 
-        />
-        <Weather 
-          day="THU" 
-          temperature={forecast[3].main.temp}
-          weather={{ icon: forecast[3].weather[0].icon, description: forecast[3].weather[0].description }} 
-        />
-        <Weather 
-          day="FRI" 
-          temperature={forecast[4].main.temp}
-          weather={{ icon: forecast[4].weather[0].icon, description: forecast[4].weather[0].description }} 
-        />
-      </div>
+      <h2 className={styles.header}>Forecast</h2> 
+      {forecast && (
+        <div className={styles.weathers}>
+          {forecast.map((w, index) => {
+            if (index > 4) {
+              return null;
+            }
+            let today = day+index+1;
+            if (day+index+1 >6) {
+              today = today - 7;
+            }
+            return (
+            <Weather day={DATA[today]} 
+            temperature={w.main.temp}
+            weather={{ icon: w.weather[0].icon, description: w.weather[0].description}} 
+            />)
+          })}
+        </div>
+      )}
     </div>
 )
 }
