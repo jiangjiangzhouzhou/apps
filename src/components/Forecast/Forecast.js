@@ -3,13 +3,12 @@ import styles from './Forecast.module.css';
 import Weather from './components/Weather';
 import getForecast from '../../apis/getForecast';
 
-const DATA = ['SUN','MON','TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const DATE = ['SUN','MON','TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 const Forecast = ({city}) => {
   const [forecast, setForecast] = useState(null);
   const today = useMemo(() => new Date(), []);
   const [day, setDay] = useState();
-  console.log(day);
   useEffect(() => {
     const fetchForecast = async () => {
       const {data} = await getForecast(city.id);
@@ -27,12 +26,8 @@ const Forecast = ({city}) => {
             if (index > 4) {
               return null;
             }
-            let today = day+index+1;
-            if (day+index+1 >6) {
-              today = today - 7;
-            }
             return (
-            <Weather day={DATA[today]} 
+            <Weather day={DATE[day+index+1 <6 ? day+index+1 : day+index-6]} 
             temperature={w.main.temp}
             weather={{ icon: w.weather[0].icon, description: w.weather[0].description}} 
             />)
